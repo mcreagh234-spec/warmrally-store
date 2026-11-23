@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Checkout – WarmRally™</title><meta name="description" content="Secure checkout">
+<meta property="og:title" content="Checkout – WarmRally™"><meta property="og:description" content="Secure checkout"><meta property="og:image" content="images/product-hero.jpg">
+<link rel="icon" href="images/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"></noscript>
+<link rel="stylesheet" href="assets/warmrally.css"><link rel="stylesheet" href="assets/checkout.css"><script src="assets/checkout.js" defer></script><meta name="robots" content="noindex"><script src="assets/pixel.js"></script></head>
+<body class="co-body">
+<header class="co-head"><span class="co-spacer"></span><a href="index.html" class="co-logo"><svg viewBox="0 0 360 96" height="34" role="img" aria-label="WarmRally"><path d="M118 40 L150 10 L170 28 L188 8 L212 34 L198 34 L188 24 L170 40 L150 24 L132 40 Z" fill="#F15A22"/><text x="180" y="66" text-anchor="middle" font-family="Poppins,sans-serif" font-weight="800" font-size="52"><tspan fill="#15181d">Warm</tspan><tspan fill="#F15A22">Rally</tspan></text><text x="180" y="88" text-anchor="middle" font-family="Poppins,sans-serif" font-weight="700" font-size="12.5" letter-spacing="3" fill="#15181d">STAY WARM. ENJOY THE GAME.</text></svg></a><a href="index.html" class="co-back" aria-label="Back to store"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 8h14l-1 13H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></a></header>
+
+<button class="co-sum-toggle" type="button" aria-expanded="false"><span>Show order summary <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span><b class="co-total-sm"></b></button>
+
+<div class="co-wrap">
+  <main class="co-main">
+    <form id="co-form" novalidate>
+      <section class="co-express" hidden>
+        <p class="co-label-c">Express checkout</p>
+        <div class="co-express-btns"><div id="apple-pay" class="xbtn" hidden></div><div id="google-pay" class="xbtn" hidden></div></div>
+        <div class="co-or"><span>OR</span></div>
+      </section>
+
+      <h2>Contact</h2>
+      <div class="f"><input id="email" name="email" type="email" autocomplete="email" placeholder=" " required><label for="email">Email</label></div>
+
+      <h2>Delivery</h2>
+      <div class="f"><select id="country" name="country" autocomplete="country"><option value="US">United States</option><option value="CA">Canada</option><option value="GB">United Kingdom</option><option value="AU">Australia</option></select><label for="country">Country/Region</label></div>
+      <div class="row2">
+        <div class="f"><input id="firstName" name="firstName" autocomplete="given-name" placeholder=" " required><label for="firstName">First name</label></div>
+        <div class="f"><input id="lastName" name="lastName" autocomplete="family-name" placeholder=" " required><label for="lastName">Last name</label></div>
+      </div>
+      <div class="f"><input id="line1" name="line1" autocomplete="address-line1" placeholder=" " required><label for="line1">Address</label></div>
+      <div class="f"><input id="line2" name="line2" autocomplete="address-line2" placeholder=" "><label for="line2">Apartment, suite, etc. (optional)</label></div>
+      <div class="row3">
+        <div class="f"><input id="city" name="city" autocomplete="address-level2" placeholder=" " required><label for="city">City</label></div>
+        <div class="f" id="state-wrap"></div>
+        <div class="f"><input id="zip" name="zip" autocomplete="postal-code" placeholder=" " required><label for="zip">ZIP code</label></div>
+      </div>
+      <div class="f"><input id="phone" name="phone" type="tel" autocomplete="tel" placeholder=" "><label for="phone">Phone (for delivery updates, optional)</label></div>
+
+      <h2>Shipping method</h2>
+      <div class="co-ships" role="radiogroup" aria-label="Shipping method"></div>
+
+      <h2>Payment</h2>
+      <p class="co-sub">All transactions are secure and encrypted.</p>
+      <div class="co-pay">
+        <div class="co-pay-head"><span>Credit card</span><span class="co-cards"><img src="images/pay/visa.svg" alt="Visa"><img src="images/pay/master.svg" alt="Mastercard"><img src="images/pay/american_express.svg" alt="Amex"><img src="images/pay/discover.svg" alt="Discover"></span></div>
+        <div class="co-pay-body"><div id="card-container"><p class="co-loading">Loading secure card form…</p></div></div>
+      </div>
+
+      <div class="co-error" role="alert" hidden></div>
+      <button class="co-btn" id="pay-btn" type="submit" disabled>Pay now</button>
+      <p class="co-secure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg> Payments are processed securely by Square. We never see or store your card number.</p>
+      <nav class="co-links"><a href="policies.html#returns">Refund policy</a><a href="policies.html#shipping">Shipping</a><a href="policies.html#privacy">Privacy policy</a><a href="policies.html#terms">Terms of service</a></nav>
+    </form>
+  </main>
+
+  <aside class="co-side" aria-label="Order summary">
+    <div class="co-lines"></div>
+    <div class="co-totals">
+      <div><span>Subtotal</span><span class="co-sub-v"></span></div>
+      <div><span class="co-ship-lbl">Shipping</span><span class="co-ship-v"></span></div>
+      <div class="co-grand"><span>Total</span><span><small>USD</small> <b class="co-total"></b></span></div>
+    </div>
+  </aside>
+</div>
+
+<div class="co-empty" hidden><p>Your cart is empty.</p><a class="co-btn" href="index.html">Continue shopping</a></div>
+<div class="co-overlay" hidden><div><span class="spin"></span><p>Processing your payment…</p></div></div>
+</body></html>

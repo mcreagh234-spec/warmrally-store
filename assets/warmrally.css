@@ -1,5 +1,6 @@
 :root{
   --orange:#F15A22; --orange-dark:#d64a16; --orange-soft:#FDE7D8; --orange-tint:#FFF4EC;
+  --olive:#F15A22; --olive-dark:#d64a16;
   --ink:#15181d; --muted:#5b616b; --line:#ececec; --bg:#ffffff;
   --radius:16px; --wrap:1100px;
   --font:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;

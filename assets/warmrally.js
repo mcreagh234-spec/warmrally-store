@@ -125,17 +125,11 @@
     }, { passive: true });
   }
 
-  async function checkout() {
-    const btn = $('#buyBtn'); const label = btn.textContent;
-    btn.disabled = true; btn.textContent = 'Starting checkout…';
+  function checkout() {
+    // Save the selected bundle and go to the on-site checkout page (Square card form).
     const item = { handle: PROD.handle, qty: 1, tier: selTier.id, units: Array.from({ length: selTier.qty }, () => ({})), addons: warrantyOn() ? ['warranty'] : [] };
-    try {
-      const r = await fetch('/.netlify/functions/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: [item] }) });
-      const data = await r.json();
-      if (r.ok && data.url) { window.location.href = data.url; return; }
-      toast(data.error || 'Checkout is temporarily unavailable.');
-    } catch { toast('Checkout is temporarily unavailable.'); }
-    btn.disabled = false; btn.textContent = label;
+    try { localStorage.setItem('wr_cart_v1', JSON.stringify([item])); } catch {}
+    window.location.href = 'checkout.html';
   }
 
   document.addEventListener('click', (e) => {

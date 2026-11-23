@@ -23,7 +23,8 @@ a{color:inherit}
 /* header */
 .hdr{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--line)}
 .hdr-in{display:flex;align-items:center;justify-content:space-between;height:68px}
-.icon-btn{background:none;border:0;font-size:22px;color:var(--ink);cursor:pointer;line-height:1;padding:6px}
+.icon-btn{background:none;border:0;font-size:22px;color:var(--ink);cursor:pointer;line-height:1;padding:6px;display:inline-grid;place-items:center}
+.icon-btn svg{display:block}
 .brand{display:block}
 .logo{height:46px;width:auto}
 

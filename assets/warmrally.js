@@ -67,6 +67,7 @@
     renderReviews();
     renderRating();
     renderFeatured();
+    initGallery();
     sticky();
     buildDrawer();
     renderCart();
@@ -188,11 +189,29 @@
     window.location.href = 'checkout.html';
   }
 
+  function initGallery() {
+    const track = $('#gTrack'); if (!track) return;
+    const slides = [...track.children];
+    const thumbs = $$('#gThumbs .thumb');
+    const dotsBox = $('#gDots');
+    dotsBox.innerHTML = slides.map((_, i) => `<button class="g-dot${i === 0 ? ' on' : ''}" data-i="${i}" aria-label="Image ${i + 1}"></button>`).join('');
+    const step = () => track.clientWidth || 1;
+    const cur = () => Math.round(track.scrollLeft / step());
+    const go = (i) => { i = Math.max(0, Math.min(slides.length - 1, i)); track.scrollTo({ left: i * step(), behavior: 'smooth' }); };
+    $('#gPrev').onclick = () => go(cur() - 1);
+    $('#gNext').onclick = () => go(cur() + 1);
+    thumbs.forEach((t) => (t.onclick = () => go(+t.dataset.i)));
+    dotsBox.querySelectorAll('.g-dot').forEach((d) => (d.onclick = () => go(+d.dataset.i)));
+    track.addEventListener('scroll', () => {
+      const c = cur();
+      thumbs.forEach((t, i) => t.classList.toggle('active', i === c));
+      dotsBox.querySelectorAll('.g-dot').forEach((d, i) => d.classList.toggle('on', i === c));
+    }, { passive: true });
+  }
+
   document.addEventListener('click', (e) => {
     if (e.target.closest('#buyBtn') || e.target.closest('#sbBtn')) addLine();
     if (e.target.closest('#cartBtn')) openDrawer();
-    const th = e.target.closest('.thumb');
-    if (th) { $('#gMain').src = th.dataset.src; document.querySelectorAll('.thumb').forEach((x) => x.classList.toggle('active', x === th)); }
   });
 
   document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', boot) : boot();

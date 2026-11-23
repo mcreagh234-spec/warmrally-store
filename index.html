@@ -41,12 +41,22 @@
   <section class="hero" id="shop">
     <div class="wrap">
       <div class="gallery">
-        <div class="g-main"><img id="gMain" src="images/features.jpg" alt="WarmRally heated stadium seat"></div>
+        <div class="g-stage">
+          <div class="g-track" id="gTrack">
+            <div class="g-slide"><img src="images/features.jpg" alt="WarmRally heated stadium seat features"></div>
+            <div class="g-slide"><img src="images/product-hero.jpg" alt="WarmRally heated seat with heat zones"></div>
+            <div class="g-slide"><img src="images/lifestyle.jpg" alt="Fan staying warm on the WarmRally seat"></div>
+            <div class="g-slide"><img src="images/gallery-2.jpg" alt="WarmRally seat on stadium bleachers"></div>
+          </div>
+          <button class="g-arr l" id="gPrev" aria-label="Previous image">&#8249;</button>
+          <button class="g-arr r" id="gNext" aria-label="Next image">&#8250;</button>
+          <div class="g-dots" id="gDots"></div>
+        </div>
         <div class="g-thumbs" id="gThumbs">
-          <button class="thumb active" data-src="images/features.jpg"><img src="images/features.jpg" alt=""></button>
-          <button class="thumb" data-src="images/product-hero.jpg"><img src="images/product-hero.jpg" alt=""></button>
-          <button class="thumb" data-src="images/lifestyle.jpg"><img src="images/lifestyle.jpg" alt=""></button>
-          <button class="thumb" data-src="images/gallery-2.jpg"><img src="images/gallery-2.jpg" alt=""></button>
+          <button class="thumb active" data-i="0"><img src="images/features.jpg" alt=""></button>
+          <button class="thumb" data-i="1"><img src="images/product-hero.jpg" alt=""></button>
+          <button class="thumb" data-i="2"><img src="images/lifestyle.jpg" alt=""></button>
+          <button class="thumb" data-i="3"><img src="images/gallery-2.jpg" alt=""></button>
         </div>
       </div>
 

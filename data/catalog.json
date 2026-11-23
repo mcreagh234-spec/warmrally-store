@@ -12,24 +12,24 @@
     {
       "handle": "warmrally-heated-seat",
       "title": "WarmRally™ Heated Stadium Seat",
-      "price_cents": 7800,
-      "compare_at_cents": 11700,
+      "price_cents": 5999,
+      "compare_at_cents": 8999,
       "bundles": {
         "tiers": [
           {
             "id": "buy1",
             "qty": 1,
             "title": "Buy 1",
-            "price_cents": 7800,
-            "compare_at_cents": 11700,
-            "save": "You Save 35% OFF"
+            "price_cents": 5999,
+            "compare_at_cents": 8999,
+            "save": "You Save 33% OFF"
           },
           {
             "id": "buy2",
             "qty": 2,
             "title": "Buy 2",
-            "price_cents": 13949,
-            "compare_at_cents": 23400,
+            "price_cents": 10799,
+            "compare_at_cents": 17998,
             "save": "You Get 40% OFF",
             "badge": "MOST POPULAR"
           },
@@ -37,8 +37,8 @@
             "id": "buy3",
             "qty": 3,
             "title": "Buy 3",
-            "price_cents": 19373,
-            "compare_at_cents": 35100,
+            "price_cents": 14899,
+            "compare_at_cents": 26997,
             "save": "You Get 45% OFF",
             "badge": "MOST VALUE"
           }

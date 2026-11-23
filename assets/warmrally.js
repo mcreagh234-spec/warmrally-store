@@ -57,9 +57,10 @@
   function warrantyOn() { const c = document.querySelector(`.w-chk[data-id="${selTier.id}"]`); return c && c.checked; }
 
   function updateLead() {
-    $('#leadPrice').textContent = money(selTier.price_cents);
-    $('#leadCompare').textContent = money(selTier.compare_at_cents);
-    $('#sbPrice').innerHTML = `${money(selTier.price_cents)} <s>${money(selTier.compare_at_cents)}</s>`;
+    // Headline shows the single-seat (base) price, like the reference; bundles show their own prices.
+    $('#leadPrice').textContent = money(PROD.price_cents);
+    $('#leadCompare').textContent = money(PROD.compare_at_cents);
+    $('#sbPrice').innerHTML = `${money(PROD.price_cents)} <s>${money(PROD.compare_at_cents)}</s>`;
   }
 
   function renderRating() {

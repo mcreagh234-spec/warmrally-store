@@ -64,7 +64,10 @@
             "price_cents": 400
           }
         ]
-      }
+      },
+      "images": [
+        "images/product-hero.jpg"
+      ]
     }
   ],
   "reviews": [

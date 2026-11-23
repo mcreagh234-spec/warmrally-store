@@ -11,8 +11,12 @@ const json = (status, body) => new Response(JSON.stringify(body), { status, head
 export default async (req, context) => {
   if (req.method !== 'POST') return json(405, { error: 'Method not allowed.' });
 
-  const { SQUARE_ACCESS_TOKEN: token, SQUARE_LOCATION_ID: locationId } = process.env;
-  const env = (process.env.SQUARE_ENV || 'sandbox').toLowerCase();
+  // Env values can pick up stray/invisible characters when pasted into the dashboard.
+  // Strip anything outside printable ASCII so a bad paste can't crash the request headers.
+  const clean = (s) => (s || '').replace(/[^\x21-\x7E]/g, '');
+  const token = clean(process.env.SQUARE_ACCESS_TOKEN);
+  const locationId = clean(process.env.SQUARE_LOCATION_ID);
+  const env = clean(process.env.SQUARE_ENV).toLowerCase() || 'sandbox';
   if (!token || !locationId) return json(500, { error: 'Checkout is not configured yet.' });
 
   const origin = process.env.URL || new URL(req.url).origin;
@@ -95,23 +99,29 @@ export default async (req, context) => {
   }
 
   const host = env === 'production' ? 'https://connect.squareup.com' : 'https://connect.squareupsandbox.com';
-  const res = await fetch(`${host}/v2/online-checkout/payment-links`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-      'Square-Version': '2026-09-16',
-    },
-    body: JSON.stringify({
-      idempotency_key: crypto.randomUUID(),
-      order: {
-        location_id: locationId,
-        line_items: lineItems,
+  let res, out;
+  try {
+    res = await fetch(`${host}/v2/online-checkout/payment-links`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        'Square-Version': '2026-09-16',
       },
-      checkout_options,
-    }),
-  });
-  const out = await res.json().catch(() => ({}));
+      body: JSON.stringify({
+        idempotency_key: crypto.randomUUID(),
+        order: {
+          location_id: locationId,
+          line_items: lineItems,
+        },
+        checkout_options,
+      }),
+    });
+    out = await res.json().catch(() => ({}));
+  } catch (e) {
+    console.error('Square request failed:', String(e && e.message || e));
+    return json(502, { error: 'Payment provider error.' });
+  }
   if (!res.ok || !out.payment_link?.url) {
     console.error('Square error', res.status, JSON.stringify(out.errors || out));
     return json(502, { error: 'Payment provider error.' });

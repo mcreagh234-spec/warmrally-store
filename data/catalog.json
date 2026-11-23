@@ -6,7 +6,21 @@
     "shipping": {
       "flat_fee_cents": 0,
       "label": "Free Shipping"
-    }
+    },
+    "shipping_options": [
+      {
+        "id": "standard",
+        "label": "Free Shipping",
+        "eta": "4–9 business days",
+        "price_cents": 0
+      },
+      {
+        "id": "express",
+        "label": "Express Shipping",
+        "eta": "1–2 business days",
+        "price_cents": 1995
+      }
+    ]
   },
   "products": [
     {

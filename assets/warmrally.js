@@ -1,9 +1,63 @@
 (() => {
   const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const money = (c) => '$' + (c / 100).toFixed(2);
   const toast = (m) => { const t = $('#toast'); t.textContent = m; t.classList.add('show'); clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 3200); };
 
   let CAT, PROD, selTier;
+
+  /* ---------- cart ---------- */
+  const CART_KEY = 'wr_cart_v1';
+  const readCart = () => { try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; } catch { return []; } };
+  const writeCart = (c) => { try { localStorage.setItem(CART_KEY, JSON.stringify(c)); } catch {} renderCart(); };
+  const cartLines = () => readCart().filter((l) => l && PROD && l.handle === PROD.handle && Array.isArray(l.units));
+  const tierOf = (id) => PROD.bundles.tiers.find((t) => t.id === id);
+  function linePrice(l) { const t = tierOf(l.tier); let c = t ? t.price_cents : PROD.price_cents; for (const a of l.addons || []) c += (PROD.bundles.addons.find((x) => x.id === a)?.price_cents || 0); return c; }
+
+  function addLine() {
+    const addons = warrantyOn() ? ['warranty'] : [];
+    const key = selTier.id + '|' + addons.slice().sort().join(',');
+    const c = cartLines();
+    const ex = c.find((l) => (l.tier + '|' + (l.addons || []).slice().sort().join(',')) === key);
+    if (ex) ex.qty = Math.min(10, ex.qty + 1);
+    else c.push({ handle: PROD.handle, tier: selTier.id, qty: 1, units: Array.from({ length: selTier.qty }, () => ({})), addons });
+    writeCart(c);
+    openDrawer();
+  }
+
+  function buildDrawer() {
+    const d = document.createElement('div');
+    d.innerHTML = `<div class="overlay"></div><aside class="drawer" aria-label="Cart"><div class="drawer-h"><h2>Your cart</h2><button class="drawer-close" aria-label="Close">&times;</button></div><div class="lines"></div><div class="drawer-f"><div class="sum"><span>Subtotal</span><span class="tot"></span></div><p class="muted-sm">Shipping &amp; taxes calculated at checkout.</p><button class="co-go">Checkout</button></div></aside>`;
+    document.body.append(...d.children);
+    $('.overlay').onclick = closeDrawer;
+    $('.drawer-close').onclick = closeDrawer;
+    $('.co-go').onclick = () => { if (cartLines().length) window.location.href = 'checkout.html'; };
+    document.addEventListener('keydown', (e) => e.key === 'Escape' && closeDrawer());
+  }
+  function openDrawer() { $('.overlay')?.classList.add('show'); $('.drawer')?.classList.add('show'); }
+  function closeDrawer() { $('.overlay')?.classList.remove('show'); $('.drawer')?.classList.remove('show'); }
+
+  function renderCart() {
+    if (!$('.drawer')) return;
+    const lines = cartLines();
+    const n = lines.reduce((s, l) => s + l.qty, 0), total = lines.reduce((s, l) => s + linePrice(l) * l.qty, 0);
+    const bub = $('#cartBubble'); if (bub) { bub.textContent = n; bub.hidden = !n; }
+    $('.lines').innerHTML = lines.length ? lines.map((l, i) => {
+      const t = tierOf(l.tier);
+      const extras = (l.addons || []).map((a) => PROD.bundles.addons.find((x) => x.id === a)?.title).filter(Boolean);
+      return `<div class="line" data-i="${i}"><img src="${PROD.images[0]}" alt=""><div class="line-b"><b>${PROD.title}</b>${t ? `<small>${t.title}</small>` : ''}${extras.map((x) => `<small>${x.replace(/^\+\s*/, '+ ')}</small>`).join('')}<div class="qty"><button data-d="-1" aria-label="Decrease">−</button><input value="${l.qty}" inputmode="numeric" aria-label="Quantity"><button data-d="1" aria-label="Increase">+</button></div><button class="rm">Remove</button></div><b class="line-p">${money(linePrice(l) * l.qty)}</b></div>`;
+    }).join('') : `<div class="cart-empty"><p>Your cart is empty</p><button class="co-cont">Continue shopping</button></div>`;
+    $('.tot').textContent = money(total);
+    $('.co-go').disabled = !lines.length;
+    const cont = $('.co-cont'); if (cont) cont.onclick = closeDrawer;
+    $$('.line').forEach((row) => {
+      const i = +row.dataset.i;
+      const set = (q) => { const c = cartLines(); if (q < 1) c.splice(i, 1); else c[i].qty = Math.min(10, q); writeCart(c); };
+      row.querySelectorAll('[data-d]').forEach((btn) => (btn.onclick = () => set((cartLines()[i]?.qty || 0) + +btn.dataset.d)));
+      row.querySelector('input').onchange = (e) => set(parseInt(e.target.value, 10) || 0);
+      row.querySelector('.rm').onclick = () => set(0);
+    });
+  }
 
   async function boot() {
     try { CAT = await (await fetch('data/catalog.json', { cache: 'no-cache' })).json(); }
@@ -14,6 +68,8 @@
     renderRating();
     renderFeatured();
     sticky();
+    buildDrawer();
+    renderCart();
     $('#yr').textContent = new Date().getFullYear();
   }
 
@@ -133,7 +189,8 @@
   }
 
   document.addEventListener('click', (e) => {
-    if (e.target.id === 'buyBtn' || e.target.id === 'sbBtn') checkout();
+    if (e.target.closest('#buyBtn') || e.target.closest('#sbBtn')) addLine();
+    if (e.target.closest('#cartBtn')) openDrawer();
     const th = e.target.closest('.thumb');
     if (th) { $('#gMain').src = th.dataset.src; document.querySelectorAll('.thumb').forEach((x) => x.classList.toggle('active', x === th)); }
   });

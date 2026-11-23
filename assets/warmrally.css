@@ -195,3 +195,28 @@ a{color:inherit}
 .rv-dot{width:9px;height:9px;border-radius:50%;background:var(--orange-soft);border:0;padding:0;cursor:pointer}
 .rv-dot.on{background:var(--orange);width:22px;border-radius:5px}
 @media(min-width:760px){.rv-track{grid-auto-columns:calc((100% - 36px)/3)}}
+
+/* ---- rating under price ---- */
+.rating{display:flex;align-items:center;gap:8px;margin:-6px 0 16px;font-size:15px;flex-wrap:wrap}
+.rating .r-stars{color:#F6A01E;font-size:18px;letter-spacing:1px}
+.rating b{font-weight:800}
+.rating .r-count{color:var(--muted);text-decoration:none;font-weight:600}
+.rating .r-count:hover{color:var(--orange);text-decoration:underline}
+
+/* ---- colored payment icons ---- */
+.pays{gap:6px}
+.pays img{height:26px;width:auto;border-radius:4px}
+.pay-mini-icons{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.pay-mini-icons img{height:22px;width:auto;border-radius:3px;box-shadow:0 0 0 1px rgba(255,255,255,.25)}
+
+/* ---- featured review box (Shrine style) under buy ---- */
+.feat-review{margin-top:18px;background:var(--orange-tint);border:1px solid var(--orange-soft);border-left:4px solid var(--orange);border-radius:12px;padding:16px 18px}
+.feat-review .fr-stars{color:#F6A01E;font-size:17px;letter-spacing:2px;margin-bottom:7px}
+.feat-review .fr-text{margin:0 0 9px;font-size:15px;font-weight:500;line-height:1.5;color:var(--ink)}
+.feat-review .fr-by{font-size:13px;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:6px}
+.feat-review .fr-check{width:16px;height:16px;border-radius:50%;background:#2fb344;color:#fff;font-size:10px;font-weight:900;display:grid;place-items:center}
+
+/* ---- review card: title + no-photo variant ---- */
+.rv-title{font-size:16.5px;font-weight:800;margin:0 0 6px;color:#fff;line-height:1.2}
+.rv-card.noimg .rv-body{min-height:230px}
+.rv-verified.sm{width:15px;height:15px;font-size:9px}

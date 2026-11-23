@@ -11,7 +11,8 @@
     PROD = CAT.products[0];
     renderTiers();
     renderReviews();
-    timeline();
+    renderRating();
+    renderFeatured();
     sticky();
     $('#yr').textContent = new Date().getFullYear();
   }
@@ -61,12 +62,23 @@
     $('#sbPrice').innerHTML = `${money(selTier.price_cents)} <s>${money(selTier.compare_at_cents)}</s>`;
   }
 
-  function timeline() {
-    const fmt = (d) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-    const add = (n) => { const d = new Date(); d.setDate(d.getDate() + n); return d; };
-    $('#tlOrdered').textContent = 'Today';
-    $('#tlReady').textContent = `${fmt(add(1))} – ${fmt(add(2))}`;
-    $('#tlDelivered').textContent = `${fmt(add(9))} – ${fmt(add(12))}`;
+  function renderRating() {
+    const box = $('#rating'); if (!box) return;
+    const rv = Array.isArray(CAT.reviews) ? CAT.reviews : [];
+    if (!rv.length) { box.remove(); return; }
+    const avg = rv.reduce((a, r) => a + (r.rating || 5), 0) / rv.length;
+    const full = Math.round(avg);
+    box.innerHTML = `<span class="r-stars">${'★'.repeat(full)}${'☆'.repeat(5 - full)}</span> <b>${avg.toFixed(1)}</b> <a href="#reviews" class="r-count">(${rv.length} review${rv.length > 1 ? 's' : ''})</a>`;
+  }
+
+  function renderFeatured() {
+    const box = $('#featReview'); if (!box) return;
+    const rv = Array.isArray(CAT.reviews) ? CAT.reviews : [];
+    if (!rv.length) { box.remove(); return; }
+    const r = rv[0], n = Math.max(1, Math.min(5, r.rating || 5));
+    box.innerHTML = `<div class="fr-stars">${'★'.repeat(n)}</div>`
+      + `<p class="fr-text">“${r.text}”</p>`
+      + `<div class="fr-by"><span class="fr-check">✓</span> Verified Customer</div>`;
   }
 
   function sticky() {
@@ -84,12 +96,16 @@
       const hasImg = !!r.img, hasText = !!r.text;
       const n = Math.max(1, Math.min(5, r.rating || 5));
       const stars = '★'.repeat(n) + '☆'.repeat(5 - n);
-      return `<article class="rv-card">
-        <div class="rv-img ${hasImg ? '' : 'empty'}">${hasImg ? `<img src="${r.img}" alt="${(r.name || 'Customer')} photo" loading="lazy">` : ''}</div>
+      const imgBox = hasImg
+        ? `<div class="rv-img"><img src="${r.img}" alt="${(r.name || 'Customer')} photo" loading="lazy"></div>`
+        : (real.length ? '' : '<div class="rv-img empty"></div>');
+      return `<article class="rv-card${hasImg ? '' : ' noimg'}">
+        ${imgBox}
         <div class="rv-body">
           <div class="rv-stars ${hasText ? '' : 'empty'}">${stars}</div>
+          ${r.title ? `<h3 class="rv-title">${r.title}</h3>` : ''}
           <p class="rv-text ${hasText ? '' : 'empty'}">${hasText ? r.text : 'Your review here'}</p>
-          <div class="rv-name">${r.name ? `${r.name} <span class="rv-verified" title="Verified">✓</span>` : ''}</div>
+          <div class="rv-name">${r.name ? `${r.name} <span class="rv-verified" title="Verified">✓</span>` : '<span class="rv-verified sm">✓</span> Verified Customer'}</div>
         </div>
       </article>`;
     }).join('');

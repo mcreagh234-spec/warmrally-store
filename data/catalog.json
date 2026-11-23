@@ -53,5 +53,26 @@
       }
     }
   ],
-  "reviews": []
+  "reviews": [
+    {
+      "title": "So much better for game days",
+      "rating": 5,
+      "text": "Bought this for my son's football games and honestly don't know why I waited so long. Those bleachers get freezing cold and this helps a ton. The seat is really comfortable too, especially when you're sitting there for 2-3 hours."
+    },
+    {
+      "title": "Really comfortable",
+      "rating": 5,
+      "text": "Wasn't sure what to expect when I ordered this but I'm actually really happy with it. The back support is nice and I love that I can lean back a little. Doesn't feel like I'm sitting on hard bleachers the whole game anymore lol."
+    },
+    {
+      "title": "Glad I got one",
+      "rating": 5,
+      "text": "I've used my WarmRally a few times now for football games and even took it camping last weekend. It's pretty easy to carry around and the little side pockets are handy. Definitely makes sitting outside in the cold a lot more bearable."
+    },
+    {
+      "title": "Wish I bought this sooner",
+      "rating": 5,
+      "text": "Got this for my daughter's soccer games because I was tired of freezing on those metal bleachers lol. Used it a few times now and I really like it. Super comfortable and the heat makes a big difference, especially in the mornings. Definitely glad I bought it."
+    }
+  ]
 }

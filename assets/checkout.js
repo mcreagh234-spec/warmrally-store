@@ -11,7 +11,7 @@
   const money = (c) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(c / 100);
   const readCart = () => { try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; } catch { return []; } };
   const product = (h) => CAT.products.find((p) => p.handle === h);
-  const optVal = (p, n, v) => p.options.find((o) => o.name === n)?.values.find((x) => x.name === v);
+  const optVal = (p, n, v) => (p.options || []).find((o) => o.name === n)?.values.find((x) => x.name === v);
   const lines = () => readCart().filter((l) => product(l.handle) && Array.isArray(l.units));
   function linePrice(l) {
     const p = product(l.handle), b = p.bundles, t = b?.tiers.find((x) => x.id === l.tier);

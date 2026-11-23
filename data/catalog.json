@@ -1,0 +1,57 @@
+{
+  "store": {
+    "name": "WarmRally",
+    "currency": "USD",
+    "support_email": "support@warmrally.store",
+    "shipping": {
+      "flat_fee_cents": 0,
+      "label": "Free Shipping"
+    }
+  },
+  "products": [
+    {
+      "handle": "warmrally-heated-seat",
+      "title": "WarmRally™ Heated Stadium Seat",
+      "price_cents": 7800,
+      "compare_at_cents": 11700,
+      "bundles": {
+        "tiers": [
+          {
+            "id": "buy1",
+            "qty": 1,
+            "title": "Buy 1",
+            "price_cents": 7800,
+            "compare_at_cents": 11700,
+            "save": "You Save 35% OFF"
+          },
+          {
+            "id": "buy2",
+            "qty": 2,
+            "title": "Buy 2",
+            "price_cents": 13949,
+            "compare_at_cents": 23400,
+            "save": "You Get 40% OFF",
+            "badge": "MOST POPULAR"
+          },
+          {
+            "id": "buy3",
+            "qty": 3,
+            "title": "Buy 3",
+            "price_cents": 19373,
+            "compare_at_cents": 35100,
+            "save": "You Get 45% OFF",
+            "badge": "MOST VALUE"
+          }
+        ],
+        "addons": [
+          {
+            "id": "warranty",
+            "title": "+ 30-Day Warranty",
+            "price_cents": 400
+          }
+        ]
+      }
+    }
+  ],
+  "reviews": []
+}

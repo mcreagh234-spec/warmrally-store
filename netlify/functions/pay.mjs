@@ -25,7 +25,11 @@ const FRIENDLY = {
 };
 
 export default async (req) => {
-  const { SQUARE_ACCESS_TOKEN: token, SQUARE_LOCATION_ID: locationId, SQUARE_APPLICATION_ID: appId } = process.env;
+  // Strip any stray/invisible characters so a bad paste in the dashboard can't crash the request headers.
+  const ascii = (s) => (s || '').replace(/[^\x21-\x7E]/g, '');
+  const token = ascii(process.env.SQUARE_ACCESS_TOKEN);
+  const locationId = ascii(process.env.SQUARE_LOCATION_ID);
+  const appId = ascii(process.env.SQUARE_APPLICATION_ID);
   const env = (process.env.SQUARE_ENV || 'sandbox').toLowerCase() === 'production' ? 'production' : 'sandbox';
 
   if (req.method === 'GET') {
